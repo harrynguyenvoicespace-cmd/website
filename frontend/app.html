@@ -18,13 +18,16 @@
           <button class="rail-tool" type="button" data-rail-tool="retopo"><span class="rail-glyph">RT</span><span>Retopo</span></button>
           <button class="rail-tool" type="button" data-rail-tool="texture"><span class="rail-glyph">TX</span><span>Texture</span></button>
           <button class="rail-tool" type="button" data-rail-tool="animate"><span class="rail-glyph">AN</span><span>Animate</span></button>
-          <button class="rail-logout" type="button" data-logout>Out</button>
+          <button class="rail-logout" type="button" data-logout>Logout</button>
         </nav>
 
         <aside class="ai-panel">
           <header class="panel-head">
             <span class="spark-dot"></span>
-            <h1>Generate Model</h1>
+            <div>
+              <p class="panel-kicker">AI tuning</p>
+              <h1>Generate Model</h1>
+            </div>
           </header>
 
           <div class="mode-switch" role="group" aria-label="Model mode">
@@ -34,24 +37,24 @@
 
           <section class="source-card">
             <div class="source-tabs" role="group" aria-label="Input source">
-              <button class="active" type="button" data-source-tab="image" aria-label="Image source">IMG</button>
-              <button type="button" data-source-tab="model" aria-label="Model source">BOX</button>
-              <button type="button" data-source-tab="multi" aria-label="Multi view source">PIC</button>
-              <button type="button" data-source-tab="prompt" aria-label="Prompt source">PEN</button>
+              <button class="active" type="button" data-source-tab="image" aria-label="Image source">Image</button>
+              <button type="button" data-source-tab="model" aria-label="Model source">Model</button>
+              <button type="button" data-source-tab="multi" aria-label="Multi view source">Multi</button>
+              <button type="button" data-source-tab="prompt" aria-label="Prompt source">Prompt</button>
             </div>
 
-            <label class="upload-zone" for="assetUpload">
-              <input id="assetUpload" type="file" accept="image/png,image/jpeg,image/webp,.glb,.gltf" data-ai-file />
+            <div class="upload-zone" data-upload-zone role="button" tabindex="0" aria-label="Upload image for 3D model">
+              <input id="assetUpload" type="file" accept="image/png,image/jpeg,image/webp" data-ai-file />
               <span class="upload-icon">IMG</span>
               <strong data-file-name>Upload</strong>
               <small>JPG, PNG, WEBP Size &lt; 20MB</small>
               <button class="image-gen-link" type="button" data-generate-image>Generate Image for 3D &gt;</button>
-            </label>
+            </div>
           </section>
 
           <section class="settings-block">
             <h2>General Settings</h2>
-            <details class="setting-row">
+            <details class="setting-row" data-topology-details>
               <summary><span>Topology</span><strong data-topology-label>Smart low poly</strong></summary>
               <div class="setting-grid">
                 <label><span>Face limit</span><input type="number" value="50000" min="1000" step="1000" data-face-limit /></label>
@@ -59,7 +62,7 @@
                 <label><span>Quality</span><select data-quality><option>High</option><option>Medium</option><option>Draft</option></select></label>
               </div>
             </details>
-            <div class="member-row"><span class="coin">M</span><strong>Members Only</strong></div>
+            <button class="member-row" type="button" data-member><span class="coin">M</span><strong>Members Only</strong><span data-member-label>Trial active</span></button>
             <button class="privacy-row" type="button" data-privacy><span>Privacy</span><strong><span class="globe">O</span><span data-privacy-label>Public</span></strong></button>
           </section>
 
@@ -69,7 +72,7 @@
           </div>
 
           <div class="ai-status" data-ai-status>Ready</div>
-          <button class="generate-cta" type="button" data-generate-model>Generate to start your 24h trial</button>
+          <button class="generate-cta" type="button" data-generate-model>Generate preview model</button>
         </aside>
       </section>
 
@@ -89,6 +92,7 @@
           <div class="viewport-hud">
             <span>FPS <strong data-fps>--</strong></span>
             <span>Objects <strong data-object-count>3</strong></span>
+            <span>Mode <strong data-current-mode>Smart</strong></span>
           </div>
         </div>
       </section>
