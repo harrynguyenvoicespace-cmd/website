@@ -9,6 +9,7 @@ const countEl = document.querySelector("[data-object-count]");
 const currentModeEl = document.querySelector("[data-current-mode]");
 const resetButton = document.querySelector("[data-reset-camera]");
 const addBlockButton = document.querySelector("[data-add-block]");
+const inspectorButton = document.querySelector("[data-toggle-inspector]");
 const sourceBody = document.querySelector("[data-source-body]");
 const topologyFieldsEl = document.querySelector("[data-topology-fields]");
 const advancedFieldsEl = document.querySelector("[data-advanced-fields]");
@@ -59,6 +60,7 @@ let clientKey = stored("freed.api.clientKey", "local-dev-key");
 let adminKey = stored("freed.api.adminKey", "local-admin-key");
 let objectCount = 3;
 let textureIndex = 0;
+let inspectorOpen = false;
 function stored(key, fallback) { return localStorage.getItem(key) || fallback; }
 function findOp(id) { return ops.find((item) => item.id === id) || ops[0]; }
 function defaults(item) { const next = {}; item.fields.forEach((field) => { next[field.name] = field.def !== undefined ? field.def : field.kind === "boolean" ? false : ""; }); return next; }
@@ -74,6 +76,7 @@ function escapeAttr(value) { return escapeHtml(value).replace(/'/g, "&#39;"); }
 function icon(name) { return `<i data-lucide="${escapeAttr(name)}" aria-hidden="true"></i>`; }
 function refreshIcons() { if (window.lucide) window.lucide.createIcons(); }
 function setProgress(label, value) { const safe = Math.max(0, Math.min(100, Number(value) || 0)); progressLabel.textContent = label; progressValue.textContent = `${safe}%`; progressBar.style.width = `${safe}%`; }
+async function toggleInspector() { if (!studio?.scene?.debugLayer) { showError("Babylon Inspector bundle did not load."); return; } if (inspectorOpen) { studio.scene.debugLayer.hide(); inspectorOpen = false; inspectorButton.textContent = "Inspector"; setProgress("Inspector closed", 5); return; } await studio.scene.debugLayer.show({ embedMode: true, overlay: false, handleResize: true, enablePopup: false }); inspectorOpen = true; inspectorButton.textContent = "Hide Inspector"; setProgress("Inspector reading scene", 100); }
 function showError(message) { errorBox.hidden = !message; errorBox.textContent = message || ""; }
 function setBusy(value) { busy = value; generateButton.disabled = busy; runIcon.setAttribute("data-lucide", busy ? "loader-2" : "sparkles"); runIcon.classList.toggle("animate-spin", busy); renderControlsDisabled(); refreshIcons(); }
 function renderControlsDisabled() { document.querySelectorAll(".shell button, .shell input, .shell select, .shell textarea").forEach((node) => { if (node.matches("[data-api-root], [data-client-key], [data-admin-key]")) return; node.disabled = busy; }); }
@@ -211,6 +214,7 @@ engine.runRenderLoop(() => { studio.diamond.rotation.y += 0.004; studio.scene.re
 window.addEventListener("resize", () => engine.resize());
 resetButton.addEventListener("click", resetCamera);
 addBlockButton.addEventListener("click", addBlock);
+inspectorButton.addEventListener("click", () => toggleInspector().catch((err) => showError(err instanceof Error ? err.message : String(err))));
 modeButtons.forEach((button) => button.addEventListener("click", () => { autoImport = button.dataset.mode === "smart"; renderModes(); }));
 sourceButtons.forEach((button) => button.addEventListener("click", () => switchOp(findOp(button.dataset.sourceTab))));
 railButtons.forEach((button) => button.addEventListener("click", () => switchGroup(button.dataset.railTool)));
