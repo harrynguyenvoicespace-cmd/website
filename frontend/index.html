@@ -1,0 +1,172 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BloxLab - Build Roblox worlds faster</title>
+    <meta
+      name="description"
+      content="BloxLab is a focused creation workspace for Roblox teams, with fast generation, clean exports, and a BabylonJS viewport after login."
+    />
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/landing.css" />
+  </head>
+  <body>
+    <header class="site-header" data-nav>
+      <a class="brand" href="./index.html" aria-label="BloxLab home">
+        <span class="brand-mark"></span>
+        <span>BloxLab</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#workflow">Workflow</a>
+        <a href="#modules">Modules</a>
+        <a href="#performance">Performance</a>
+      </nav>
+      <div class="header-actions">
+        <a class="ghost-link" href="./login.html">Login</a>
+        <a class="button button-small" href="./login.html">Open Studio</a>
+      </div>
+      <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Cloudflare native Roblox creation stack</p>
+          <h1>Design, test, and ship 3D game ideas from one sharp workspace.</h1>
+          <p class="hero-lede">
+            A fast landing, a clean login flow, and a BabylonJS viewport ready after sign in.
+            Built as small modules so the project stays easy to extend.
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="./login.html">Launch viewport</a>
+            <a class="text-link" href="#modules">View modules</a>
+          </div>
+          <div class="hero-metrics" aria-label="Product highlights">
+            <div>
+              <strong>0 deps</strong>
+              <span>landing runtime</span>
+            </div>
+            <div>
+              <strong>Edge API</strong>
+              <span>Cloudflare Worker</span>
+            </div>
+            <div>
+              <strong>BabylonJS</strong>
+              <span>3D viewport</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-label="BloxLab studio preview">
+          <div class="preview-shell">
+            <div class="preview-toolbar">
+              <span></span>
+              <span></span>
+              <span></span>
+              <p>Studio viewport</p>
+            </div>
+            <div class="preview-stage">
+              <img class="preview-image" src="./assets/dashboard-preview.png" alt="BloxLab dashboard preview" />
+              <div class="stage-grid"></div>
+              <div class="block block-a"></div>
+              <div class="block block-b"></div>
+              <div class="block block-c"></div>
+              <div class="inspector-card">
+                <span>Selected</span>
+                <strong>Crystal Gate</strong>
+                <small>Mesh clean, 3 materials, 1 export queue</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="strip" id="performance" aria-label="Performance details">
+        <article>
+          <span>Frontend</span>
+          <strong>Static HTML, CSS, JS</strong>
+          <p>No framework on the landing page, so first load stays light.</p>
+        </article>
+        <article>
+          <span>Backend</span>
+          <strong>Cloudflare Worker</strong>
+          <p>Small route modules with explicit JSON responses and CORS.</p>
+        </article>
+        <article>
+          <span>Viewport</span>
+          <strong>BabylonJS after login</strong>
+          <p>3D engine only loads on the app screen, not on marketing pages.</p>
+        </article>
+      </section>
+
+      <section class="section" id="workflow">
+        <div class="section-heading">
+          <p class="eyebrow">Workflow</p>
+          <h2>From landing to live viewport in three clear steps.</h2>
+        </div>
+        <div class="workflow-grid">
+          <article class="workflow-card">
+            <span>01</span>
+            <h3>Enter from landing</h3>
+            <p>Clean product page with only the assets and scripts it needs.</p>
+          </article>
+          <article class="workflow-card">
+            <span>02</span>
+            <h3>Login through API</h3>
+            <p>The frontend talks to a Cloudflare Worker route for auth.</p>
+          </article>
+          <article class="workflow-card">
+            <span>03</span>
+            <h3>Open 3D viewport</h3>
+            <p>After auth, BabylonJS loads the studio canvas and scene tools.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section module-section" id="modules">
+        <div class="section-heading">
+          <p class="eyebrow">Modules</p>
+          <h2>Separated by purpose, not dumped into one file.</h2>
+        </div>
+        <div class="module-grid">
+          <article>
+            <h3>Frontend</h3>
+            <p>Landing, login, viewport scripts, and CSS are split by screen.</p>
+            <code>frontend/scripts/viewport.js</code>
+          </article>
+          <article>
+            <h3>Backend</h3>
+            <p>Cloudflare routes, middleware, services, validators, and utils.</p>
+            <code>backend/src/routes/auth.ts</code>
+          </article>
+          <article>
+            <h3>Shared contract</h3>
+            <p>API payload names live in one place so frontend and backend agree.</p>
+            <code>shared/contracts/api.ts</code>
+          </article>
+          <article>
+            <h3>3D viewport</h3>
+            <p>BabylonJS scene setup stays isolated from auth and navigation.</p>
+            <code>frontend/scripts/viewport.js</code>
+          </article>
+        </div>
+      </section>
+
+      <section class="cta-section">
+        <div>
+          <p class="eyebrow">Ready</p>
+          <h2>Login and open the BabylonJS workspace.</h2>
+        </div>
+        <a class="button" href="./login.html">Go to login</a>
+      </section>
+    </main>
+
+    <script src="./scripts/nav.js" defer></script>
+  </body>
+</html>
+
+

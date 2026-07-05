@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login - BloxLab</title>
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/auth.css" />
+  </head>
+  <body class="auth-body">
+    <main class="auth-layout">
+      <section class="auth-panel">
+        <a class="brand" href="./index.html" aria-label="BloxLab home">
+          <span class="brand-mark"></span>
+          <span>BloxLab</span>
+        </a>
+        <div>
+          <p class="eyebrow">Studio access</p>
+          <h1>Login to open the BabylonJS viewport.</h1>
+          <p class="auth-lede">
+            Use any email and a password with at least six characters for the demo flow.
+          </p>
+        </div>
+
+        <form class="login-form" data-login-form>
+          <label>
+            Email
+            <input name="email" type="email" value="builder@bloxlab.dev" autocomplete="email" required />
+          </label>
+          <label>
+            Password
+            <input name="password" type="password" value="bloxlab" autocomplete="current-password" required />
+          </label>
+          <button class="button" type="submit">Login and open viewport</button>
+          <p class="form-status" data-login-status role="status"></p>
+        </form>
+      </section>
+
+      <aside class="auth-preview" aria-label="Login preview">
+        <div class="auth-orbit">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="auth-card">
+          <span>Next screen</span>
+          <strong>BabylonJS viewport</strong>
+          <p>Scene, camera controls, lighting, and module-ready toolbar.</p>
+        </div>
+      </aside>
+    </main>
+
+    <script src="./scripts/config.js"></script>
+    <script src="./scripts/login.js"></script>
+  </body>
+</html>

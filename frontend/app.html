@@ -1,0 +1,72 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BloxLab Studio Viewport</title>
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/viewport.css" />
+  </head>
+  <body class="studio-body">
+    <main class="studio-shell">
+      <aside class="studio-sidebar">
+        <a class="brand" href="./index.html" aria-label="BloxLab home">
+          <span class="brand-mark"></span>
+          <span>BloxLab</span>
+        </a>
+        <nav class="tool-list" aria-label="Studio tools">
+          <button class="tool active" type="button">Select</button>
+          <button class="tool" type="button">Move</button>
+          <button class="tool" type="button">Scale</button>
+          <button class="tool" type="button">Material</button>
+        </nav>
+        <button class="ghost-button" type="button" data-logout>Logout</button>
+      </aside>
+
+      <section class="viewport-panel">
+        <header class="viewport-header">
+          <div>
+            <p class="eyebrow">BabylonJS viewport</p>
+            <h1>Studio Scene</h1>
+          </div>
+          <div class="viewport-actions">
+            <button class="ghost-button" type="button" data-reset-camera>Reset camera</button>
+            <button class="button button-small" type="button" data-add-block>Add block</button>
+          </div>
+        </header>
+        <div class="canvas-wrap">
+          <canvas id="studioCanvas" aria-label="3D studio viewport"></canvas>
+          <div class="viewport-hud">
+            <span>FPS <strong data-fps>--</strong></span>
+            <span>Objects <strong data-object-count>3</strong></span>
+          </div>
+        </div>
+      </section>
+
+      <aside class="inspector">
+        <p class="eyebrow">Inspector</p>
+        <h2>Scene modules</h2>
+        <div class="inspector-list">
+          <article>
+            <span>Camera</span>
+            <strong>ArcRotate</strong>
+          </article>
+          <article>
+            <span>Light</span>
+            <strong>Hemispheric + point</strong>
+          </article>
+          <article>
+            <span>Export</span>
+            <strong>Ready for route module</strong>
+          </article>
+        </div>
+      </aside>
+    </main>
+
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/materialsLibrary/babylon.gridMaterial.min.js"></script>
+    <script src="./scripts/viewport.js"></script>
+  </body>
+</html>
+
+
