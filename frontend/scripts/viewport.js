@@ -5,6 +5,17 @@ const countEl = document.querySelector("[data-object-count]");
 const logoutButton = document.querySelector("[data-logout]");
 const resetButton = document.querySelector("[data-reset-camera]");
 const addBlockButton = document.querySelector("[data-add-block]");
+const fileInput = document.querySelector("[data-ai-file]");
+const fileName = document.querySelector("[data-file-name]");
+const promptInput = document.querySelector("[data-prompt]");
+const statusEl = document.querySelector("[data-ai-status]");
+const privacyButton = document.querySelector("[data-privacy]");
+const privacyLabel = document.querySelector("[data-privacy-label]");
+const generateButton = document.querySelector("[data-generate-model]");
+const generateImageButton = document.querySelector("[data-generate-image]");
+const modeButtons = document.querySelectorAll("[data-mode]");
+const sourceButtons = document.querySelectorAll("[data-source-tab]");
+const railButtons = document.querySelectorAll("[data-rail-tool]");
 
 if (!session) {
   window.location.href = "./login.html";
@@ -22,6 +33,7 @@ const engine = new BABYLON.Engine(canvas, true, {
 });
 
 let objectCount = 3;
+let privacy = "Public";
 
 function createMaterial(scene, name, color, roughness = 0.48) {
   const material = new BABYLON.PBRMaterial(name, scene);
@@ -56,8 +68,6 @@ function createScene() {
   point.intensity = 1.2;
 
   const ground = BABYLON.MeshBuilder.CreateGround("grid-floor", { width: 14, height: 14 }, scene);
-  ground.material = createMaterial(scene, "floor-material", new BABYLON.Color3(0.07, 0.08, 0.11), 0.82);
-
   const cyan = createMaterial(scene, "cyan-block", new BABYLON.Color3(0.15, 0.82, 0.86));
   const lime = createMaterial(scene, "lime-block", new BABYLON.Color3(0.74, 0.92, 0.35));
   const coral = createMaterial(scene, "coral-block", new BABYLON.Color3(0.95, 0.42, 0.32));
@@ -92,6 +102,19 @@ function createScene() {
   return { scene, camera, materials: [cyan, lime, coral] };
 }
 
+function addGeneratedPreview() {
+  const mesh = BABYLON.MeshBuilder.CreateTorusKnot(`ai-model-${objectCount + 1}`, {
+    radius: 0.78,
+    tube: 0.22,
+    radialSegments: 96,
+    tubularSegments: 16
+  }, studio.scene);
+  mesh.position = new BABYLON.Vector3(Math.sin(objectCount) * 2.4, 1.2, Math.cos(objectCount) * 2.4);
+  mesh.material = studio.materials[objectCount % studio.materials.length];
+  objectCount += 1;
+  countEl.textContent = String(objectCount);
+}
+
 const studio = createScene();
 
 engine.runRenderLoop(() => {
@@ -116,6 +139,55 @@ addBlockButton.addEventListener("click", () => {
   block.material = studio.materials[objectCount % studio.materials.length];
   objectCount += 1;
   countEl.textContent = String(objectCount);
+});
+
+modeButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    modeButtons.forEach((item) => item.classList.remove("active"));
+    button.classList.add("active");
+    statusEl.textContent = button.dataset.mode === "smart" ? "Smart Mesh selected" : "HD Model selected";
+  });
+});
+
+sourceButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    sourceButtons.forEach((item) => item.classList.remove("active"));
+    button.classList.add("active");
+    statusEl.textContent = `${button.dataset.sourceTab} source ready`;
+  });
+});
+
+railButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    railButtons.forEach((item) => item.classList.remove("active"));
+    button.classList.add("active");
+    statusEl.textContent = `${button.dataset.railTool} module selected`;
+  });
+});
+
+fileInput?.addEventListener("change", () => {
+  const file = fileInput.files?.[0];
+  if (!file) return;
+  fileName.textContent = file.name;
+  statusEl.textContent = `${file.name} loaded for AI tuning`;
+});
+
+privacyButton?.addEventListener("click", () => {
+  privacy = privacy === "Public" ? "Private" : "Public";
+  privacyLabel.textContent = privacy;
+  statusEl.textContent = `Privacy set to ${privacy}`;
+});
+
+generateImageButton?.addEventListener("click", (event) => {
+  event.preventDefault();
+  statusEl.textContent = "Image-to-3D prompt prepared";
+  promptInput.focus();
+});
+
+generateButton?.addEventListener("click", () => {
+  const prompt = promptInput.value.trim() || "stylized 3D game asset";
+  statusEl.textContent = `Generated preview: ${prompt}`;
+  addGeneratedPreview();
 });
 
 logoutButton?.addEventListener("click", () => {

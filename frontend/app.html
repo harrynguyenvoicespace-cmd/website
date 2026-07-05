@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -9,25 +9,75 @@
   </head>
   <body class="studio-body">
     <main class="studio-shell">
-      <aside class="studio-sidebar">
-        <a class="brand" href="./index.html" aria-label="BloxLab home">
-          <span class="brand-mark"></span>
-          <span>BloxLab</span>
-        </a>
-        <nav class="tool-list" aria-label="Studio tools">
-          <button class="tool active" type="button">Select</button>
-          <button class="tool" type="button">Move</button>
-          <button class="tool" type="button">Scale</button>
-          <button class="tool" type="button">Material</button>
+      <section class="ai-workbench" aria-label="AI model panel">
+        <nav class="ai-rail" aria-label="Studio AI tools">
+          <a class="rail-logo" href="./index.html" aria-label="BloxLab home"><span class="brand-mark"></span></a>
+          <button class="rail-tool" type="button" data-rail-tool="image"><span class="rail-glyph">IM</span><span>Image</span><small>GPT Image 2</small></button>
+          <button class="rail-tool active" type="button" data-rail-tool="model"><span class="rail-glyph">MD</span><span>Model</span></button>
+          <button class="rail-tool" type="button" data-rail-tool="segment"><span class="rail-glyph">SG</span><span>Segment</span></button>
+          <button class="rail-tool" type="button" data-rail-tool="retopo"><span class="rail-glyph">RT</span><span>Retopo</span></button>
+          <button class="rail-tool" type="button" data-rail-tool="texture"><span class="rail-glyph">TX</span><span>Texture</span></button>
+          <button class="rail-tool" type="button" data-rail-tool="animate"><span class="rail-glyph">AN</span><span>Animate</span></button>
+          <button class="rail-logout" type="button" data-logout>Out</button>
         </nav>
-        <button class="ghost-button" type="button" data-logout>Logout</button>
-      </aside>
+
+        <aside class="ai-panel">
+          <header class="panel-head">
+            <span class="spark-dot"></span>
+            <h1>Generate Model</h1>
+          </header>
+
+          <div class="mode-switch" role="group" aria-label="Model mode">
+            <button type="button" data-mode="hd">HD Model</button>
+            <button class="active" type="button" data-mode="smart">Smart Mesh <span>!</span></button>
+          </div>
+
+          <section class="source-card">
+            <div class="source-tabs" role="group" aria-label="Input source">
+              <button class="active" type="button" data-source-tab="image" aria-label="Image source">IMG</button>
+              <button type="button" data-source-tab="model" aria-label="Model source">BOX</button>
+              <button type="button" data-source-tab="multi" aria-label="Multi view source">PIC</button>
+              <button type="button" data-source-tab="prompt" aria-label="Prompt source">PEN</button>
+            </div>
+
+            <label class="upload-zone" for="assetUpload">
+              <input id="assetUpload" type="file" accept="image/png,image/jpeg,image/webp,.glb,.gltf" data-ai-file />
+              <span class="upload-icon">IMG</span>
+              <strong data-file-name>Upload</strong>
+              <small>JPG, PNG, WEBP Size &lt; 20MB</small>
+              <button class="image-gen-link" type="button" data-generate-image>Generate Image for 3D &gt;</button>
+            </label>
+          </section>
+
+          <section class="settings-block">
+            <h2>General Settings</h2>
+            <details class="setting-row">
+              <summary><span>Topology</span><strong data-topology-label>Smart low poly</strong></summary>
+              <div class="setting-grid">
+                <label><span>Face limit</span><input type="number" value="50000" min="1000" step="1000" data-face-limit /></label>
+                <label><span>Texture</span><select data-texture><option>PBR</option><option>Standard</option><option>None</option></select></label>
+                <label><span>Quality</span><select data-quality><option>High</option><option>Medium</option><option>Draft</option></select></label>
+              </div>
+            </details>
+            <div class="member-row"><span class="coin">M</span><strong>Members Only</strong></div>
+            <button class="privacy-row" type="button" data-privacy><span>Privacy</span><strong><span class="globe">O</span><span data-privacy-label>Public</span></strong></button>
+          </section>
+
+          <div class="prompt-box">
+            <label for="modelPrompt">Prompt</label>
+            <textarea id="modelPrompt" rows="3" data-prompt placeholder="robotic game prop, clean topology, stylized material"></textarea>
+          </div>
+
+          <div class="ai-status" data-ai-status>Ready</div>
+          <button class="generate-cta" type="button" data-generate-model>Generate to start your 24h trial</button>
+        </aside>
+      </section>
 
       <section class="viewport-panel">
         <header class="viewport-header">
           <div>
             <p class="eyebrow">BabylonJS viewport</p>
-            <h1>Studio Scene</h1>
+            <h2>Studio Scene</h2>
           </div>
           <div class="viewport-actions">
             <button class="ghost-button" type="button" data-reset-camera>Reset camera</button>
@@ -42,31 +92,11 @@
           </div>
         </div>
       </section>
-
-      <aside class="inspector">
-        <p class="eyebrow">Inspector</p>
-        <h2>Scene modules</h2>
-        <div class="inspector-list">
-          <article>
-            <span>Camera</span>
-            <strong>ArcRotate</strong>
-          </article>
-          <article>
-            <span>Light</span>
-            <strong>Hemispheric + point</strong>
-          </article>
-          <article>
-            <span>Export</span>
-            <strong>Ready for route module</strong>
-          </article>
-        </div>
-      </aside>
     </main>
 
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
     <script src="https://cdn.babylonjs.com/materialsLibrary/babylon.gridMaterial.min.js"></script>
+    <script src="./scripts/config.js"></script>
     <script src="./scripts/viewport.js"></script>
   </body>
 </html>
-
-

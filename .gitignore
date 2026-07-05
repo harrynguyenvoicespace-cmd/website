@@ -1,0 +1,4 @@
+backend/.wrangler/
+.wrangler/
+node_modules/
+*.log
