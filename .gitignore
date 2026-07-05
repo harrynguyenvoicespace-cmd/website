@@ -2,3 +2,5 @@ backend/.wrangler/
 .wrangler/
 node_modules/
 *.log
+backend/worker-configuration.d.ts
+backend/.dev.vars

@@ -1,13 +1,29 @@
-﻿{
-  "name": "bloxlab-worker-api",
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "tripo-cloudflare-api",
   "main": "src/index.ts",
   "compatibility_date": "2026-07-05",
   "compatibility_flags": ["nodejs_compat"],
-  "assets": {
-    "directory": "../frontend",
-    "binding": "ASSETS",
-    "run_worker_first": ["/api/*"]
+  "vars": {
+    "TRIPO_BASE_URL": "https://openapi.tripo3d.ai/v3",
+    "ALLOWED_ORIGINS": "*",
+    "RATE_LIMIT_REQUESTS": "60",
+    "RATE_LIMIT_WINDOW_SECONDS": "60",
+    "TASK_STATUS_CACHE_SECONDS": "2",
+    "FINAL_TASK_CACHE_SECONDS": "30",
+    "DOWNLOAD_CACHE_SECONDS": "60",
+    "MAX_JSON_BYTES": "1048576",
+    "MAX_UPLOAD_BYTES": "157286400",
+    "DOWNLOAD_HOST_ALLOWLIST": "amazonaws.com,tripo3d.ai,tripo3d.com"
   },
+  "durable_objects": {
+    "bindings": [
+      { "name": "RATE_LIMITER", "class_name": "RateLimitBucket" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["RateLimitBucket"] }
+  ],
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
