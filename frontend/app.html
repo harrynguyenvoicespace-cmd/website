@@ -5,116 +5,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>BloxLab Studio Viewport</title>
     <link rel="stylesheet" href="./styles/base.css" />
-    <link rel="stylesheet" href="./styles/viewport.css?v=source-panel-103" />
+    <link rel="stylesheet" href="./styles/viewport.css?v=studio-editor-200" />
   </head>
   <body class="studio-body">
     <main class="studio-shell">
-      <aside class="shell" aria-label="Tripo AI panel">
-        <nav class="rail" aria-label="API workspace sections">
-          <div class="logoMark"><i data-lucide="box" aria-hidden="true"></i></div>
-          <div class="railItems">
-            <button type="button" class="railButton railButtonActive" data-rail-tool="generate" title="Model"><i data-lucide="cuboid" aria-hidden="true"></i><span>Model</span></button>
-            <button type="button" class="railButton" data-rail-tool="image" title="Image"><i data-lucide="image" aria-hidden="true"></i><span>Image</span></button>
-            <button type="button" class="railButton" data-rail-tool="skybox" title="Skybox"><i data-lucide="cloud-sun" aria-hidden="true"></i><span>Skybox</span></button>
-            <button type="button" class="railButton" data-rail-tool="models" title="Process"><i data-lucide="file-box" aria-hidden="true"></i><span>Process</span></button>
-            <button type="button" class="railButton" data-rail-tool="mesh" title="Mesh"><i data-lucide="layers-3" aria-hidden="true"></i><span>Mesh</span></button>
-            <button type="button" class="railButton" data-rail-tool="animation" title="Animate"><i data-lucide="play" aria-hidden="true"></i><span>Animate</span></button>
-            <button type="button" class="railButton" data-rail-tool="hymotion" title="HyMotion"><i data-lucide="activity" aria-hidden="true"></i><span>HyMotion</span></button>
-            <button type="button" class="railButton" data-rail-tool="opencloud" title="OpenCloud"><i data-lucide="upload" aria-hidden="true"></i><span>OpenCloud</span></button>
-            <button type="button" class="railButton" data-rail-tool="roblox" title="Roblox"><i data-lucide="shield-check" aria-hidden="true"></i><span>Roblox</span></button>
-            <button type="button" class="railButton" data-rail-tool="common" title="Task"><i data-lucide="clipboard-list" aria-hidden="true"></i><span>Task</span></button>
-          </div>
+      <header class="editor-topbar">
+        <a class="studio-brand" href="./index.html" aria-label="BloxLab home">
+          <span class="brand-mark"></span>
+          <strong>BloxLab</strong>
+        </a>
+        <nav class="editor-tabs" aria-label="Studio sections">
+          <button class="editor-tab is-active" type="button" data-panel-tab="home">Home</button>
+          <button class="editor-tab" type="button" data-panel-tab="model">Model</button>
+          <button class="editor-tab" type="button" data-panel-tab="view">View</button>
         </nav>
+        <div class="editor-status">
+          <span data-save-state>Scene ready</span>
+          <button class="topbar-button" type="button" data-logout>Logout</button>
+        </div>
+      </header>
 
-        <div class="panel">
-          <header class="header">
-            <div class="headerTitle"><i data-operation-icon data-lucide="image-plus" aria-hidden="true"></i><strong>Generate Model</strong></div>
-          </header>
+      <section class="editor-ribbon" aria-label="Viewport tools">
+        <div class="ribbon-group" aria-label="Transform tools">
+          <button class="ribbon-button is-active" type="button" data-tool="select" title="Select"><i data-lucide="mouse-pointer-2" aria-hidden="true"></i><span>Select</span></button>
+          <button class="ribbon-button" type="button" data-tool="move" title="Move"><i data-lucide="move-3d" aria-hidden="true"></i><span>Move</span></button>
+          <button class="ribbon-button" type="button" data-tool="scale" title="Scale"><i data-lucide="maximize" aria-hidden="true"></i><span>Scale</span></button>
+          <button class="ribbon-button" type="button" data-tool="rotate" title="Rotate"><i data-lucide="rotate-3d" aria-hidden="true"></i><span>Rotate</span></button>
+          <button class="ribbon-button" type="button" data-tool="transform" title="Transform"><i data-lucide="scan" aria-hidden="true"></i><span>Transform</span></button>
+        </div>
 
-          <div class="scrollArea">
-            <section class="modeSwitch" aria-label="Model quality mode">
-              <button type="button" data-mode="hd">HD Model</button>
-              <button type="button" class="modeActive" data-mode="smart">Smart Mesh <i data-lucide="sparkles" aria-hidden="true"></i></button>
-            </section>
+        <div class="ribbon-group" aria-label="Scene tools">
+          <button class="ribbon-button" type="button" data-add-box title="Add block"><i data-lucide="cuboid" aria-hidden="true"></i><span>Part</span></button>
+          <button class="ribbon-button" type="button" data-add-sphere title="Add sphere"><i data-lucide="circle" aria-hidden="true"></i><span>Sphere</span></button>
+          <button class="ribbon-button" type="button" data-delete-selected title="Delete selected"><i data-lucide="trash-2" aria-hidden="true"></i><span>Delete</span></button>
+        </div>
 
-            <section class="sourceCard">
-              <div class="sourceTabs" aria-label="Generation source">
-                <button type="button" class="sourceTabActive" data-source-tab="image-to-model" title="Image to Model" aria-pressed="true"><i data-lucide="image-plus" aria-hidden="true"></i></button>
-                <button type="button" data-source-tab="text-to-model" title="Text to Model" aria-pressed="false"><i data-lucide="type" aria-hidden="true"></i></button>
-                <button type="button" data-source-tab="multiview-to-model" title="Multiview to Model" aria-pressed="false"><i data-lucide="grid-3x3" aria-hidden="true"></i></button>
-                <button type="button" data-source-tab="image-to-image" title="Image to Image" aria-pressed="false"><i data-lucide="wand-2" aria-hidden="true"></i></button>
-              </div>
-              <div data-source-body></div>
-            </section>
+        <div class="ribbon-group" aria-label="Viewport options">
+          <button class="ribbon-button is-active" type="button" data-toggle-snap title="Snap"><i data-lucide="magnet" aria-hidden="true"></i><span>Snap</span></button>
+          <button class="ribbon-button is-active" type="button" data-toggle-grid title="Grid"><i data-lucide="grid-3x3" aria-hidden="true"></i><span>Grid</span></button>
+          <button class="ribbon-button" type="button" data-toggle-profiler title="Profiler"><i data-lucide="activity" aria-hidden="true"></i><span>Profiler</span></button>
+          <button class="ribbon-button" type="button" data-reset-camera title="Reset camera"><i data-lucide="camera" aria-hidden="true"></i><span>Camera</span></button>
+        </div>
+      </section>
 
-            <section class="generalBlock">
-              <div class="blockTitle">General Settings</div>
-              <details class="settingCard">
-                <summary><span>Topology</span><i data-lucide="chevron-right" aria-hidden="true"></i></summary>
-                <div class="settingBody" data-topology-fields></div>
-              </details>
-              <div class="memberRow"><i data-lucide="lock" aria-hidden="true"></i> Members Only</div>
-              <button type="button" class="privacyRow" data-privacy><span>Privacy</span><strong><i data-lucide="globe-2" aria-hidden="true"></i> <span data-privacy-label>Public</span> <i data-lucide="chevron-down" aria-hidden="true"></i></strong></button>
-            </section>
+      <section class="editor-workspace">
+        <aside class="studio-sidebar" aria-label="Studio tools">
+          <section class="sidebar-card">
+            <div class="card-heading"><span>Scene Explorer</span><strong data-object-count>0</strong></div>
+            <div class="scene-list" data-scene-list></div>
+          </section>
 
-            <details class="details">
-              <summary><i data-lucide="key-round" aria-hidden="true"></i> Advanced operation</summary>
-              <div class="detailsBody">
-                <label class="selectWrap">
-                  <select class="operationSelect" data-operation-select></select>
-                  <i data-lucide="chevron-down" aria-hidden="true"></i>
-                </label>
-                <div class="formGrid" data-advanced-fields></div>
-                <label class="field fieldWide"><span>Backend API root</span><input class="control" data-api-root /></label>
-                <label class="field fieldWide"><span>Client API key</span><input class="control" data-client-key /></label>
-                <label class="field fieldWide"><span>Admin API key</span><input class="control" data-admin-key /></label>
-              </div>
-            </details>
+          <section class="sidebar-card">
+            <div class="card-heading"><span>Viewport</span><strong data-current-tool>Select</strong></div>
+            <div class="tool-stack">
+              <button class="tool-row is-active" type="button" data-tool-shortcut="select"><i data-lucide="mouse-pointer-2" aria-hidden="true"></i><span>Select object</span></button>
+              <button class="tool-row" type="button" data-tool-shortcut="move"><i data-lucide="move-3d" aria-hidden="true"></i><span>Move gizmo</span></button>
+              <button class="tool-row" type="button" data-tool-shortcut="scale"><i data-lucide="maximize" aria-hidden="true"></i><span>Scale gizmo</span></button>
+              <button class="tool-row" type="button" data-tool-shortcut="rotate"><i data-lucide="rotate-3d" aria-hidden="true"></i><span>Rotate gizmo</span></button>
+            </div>
+          </section>
+        </aside>
 
-            <div class="errorBox" data-error hidden></div>
-
-            <section class="statusBlock">
-              <div class="progressHeader"><span data-progress-label>Ready</span><strong data-progress-value>0%</strong></div>
-              <div class="progressTrack"><div data-progress-bar style="width: 0%"></div></div>
-            </section>
-
-            <section class="outputBlock" data-report-block hidden>
-              <div class="outputHeader"><strong>Roblox validation</strong><span data-report-status></span></div>
-              <div data-report-list></div>
-            </section>
-
-            <section class="outputBlock" data-history-block hidden>
-              <div class="blockTitle">Task history</div>
-              <div class="historyList" data-history-list></div>
-            </section>
-
-            <section class="outputBlock" data-links-block hidden>
-              <div class="outputHeader"><strong>Output links</strong><span data-links-count>0 files</span></div>
-              <div class="linkList" data-link-list></div>
-            </section>
-
-            <details class="details" data-raw-block hidden>
-              <summary>Raw response</summary>
-              <pre class="rawBox" data-raw-response></pre>
-            </details>
+        <section class="viewport-panel" aria-label="BabylonJS viewport">
+          <div class="canvas-wrap">
+            <canvas id="studioCanvas" aria-label="3D studio viewport"></canvas>
+            <div class="viewport-hud">
+              <span>FPS <strong data-fps>--</strong></span>
+              <span>Tool <strong data-hud-tool>Select</strong></span>
+              <span>Selected <strong data-selected-name>None</strong></span>
+            </div>
+            <div class="viewport-profiler" data-profiler hidden>
+              <div class="profiler-head"><strong>Viewport Profiler</strong><button type="button" data-close-profiler aria-label="Close profiler">x</button></div>
+              <dl class="profiler-grid">
+                <div><dt>FPS</dt><dd data-profiler-fps>--</dd></div>
+                <div><dt>Meshes</dt><dd data-profiler-meshes>--</dd></div>
+                <div><dt>Active</dt><dd data-profiler-active>--</dd></div>
+                <div><dt>Materials</dt><dd data-profiler-materials>--</dd></div>
+              </dl>
+            </div>
           </div>
+        </section>
 
-          <footer class="footer">
-            <button type="button" class="runButton" data-generate-model><i data-run-icon data-lucide="sparkles" aria-hidden="true"></i>Generate to start your 24h trial</button>
-          </footer>
-        </div>
-      </aside>
+        <aside class="properties-panel" aria-label="Properties">
+          <section class="sidebar-card properties-card">
+            <div class="card-heading"><span>Properties</span><strong data-properties-state>Idle</strong></div>
+            <div class="selected-summary">
+              <div class="selected-icon"><i data-lucide="box" aria-hidden="true"></i></div>
+              <div><p data-property-name>No object selected</p><span data-property-type>Select a mesh in the viewport or explorer.</span></div>
+            </div>
 
-      <section class="viewport-panel">
-        <header class="viewport-header">
-          <div><p class="eyebrow">BabylonJS viewport</p><h2>Studio Scene</h2></div>
-          <div class="viewport-actions"><button class="ghost-button inspector-toggle" type="button" data-toggle-inspector title="Babylon Inspector" aria-label="Open Babylon Inspector"><i data-lucide="scan-search" aria-hidden="true"></i><span>Inspector</span></button><button class="ghost-button" type="button" data-reset-camera>Reset camera</button><button class="button button-small" type="button" data-add-block>Add block</button></div>
-        </header>
-        <div class="canvas-wrap">
-          <button class="inspector-fab" type="button" data-toggle-inspector title="Babylon Inspector" aria-label="Open Babylon Inspector"><i data-lucide="scan-search" aria-hidden="true"></i><span>Inspector</span></button>
-          <canvas id="studioCanvas" aria-label="3D studio viewport"></canvas>
-          <div class="viewport-hud"><span>FPS <strong data-fps>--</strong></span><span>Objects <strong data-object-count>3</strong></span><span>Mode <strong data-current-mode>Smart</strong></span></div>
-        </div>
+            <div class="property-section">
+              <h3>Transform</h3>
+              <div class="property-grid">
+                <label><span>X</span><input type="number" step="0.1" data-transform-field="position.x" disabled /></label>
+                <label><span>Y</span><input type="number" step="0.1" data-transform-field="position.y" disabled /></label>
+                <label><span>Z</span><input type="number" step="0.1" data-transform-field="position.z" disabled /></label>
+                <label><span>RX</span><input type="number" step="1" data-transform-field="rotation.x" disabled /></label>
+                <label><span>RY</span><input type="number" step="1" data-transform-field="rotation.y" disabled /></label>
+                <label><span>RZ</span><input type="number" step="1" data-transform-field="rotation.z" disabled /></label>
+                <label><span>SX</span><input type="number" step="0.1" min="0.1" data-transform-field="scaling.x" disabled /></label>
+                <label><span>SY</span><input type="number" step="0.1" min="0.1" data-transform-field="scaling.y" disabled /></label>
+                <label><span>SZ</span><input type="number" step="0.1" min="0.1" data-transform-field="scaling.z" disabled /></label>
+              </div>
+            </div>
+
+            <div class="property-section">
+              <h3>Material</h3>
+              <label class="wide-control"><span>Color</span><input type="color" value="#53c8d1" data-material-color disabled /></label>
+              <label class="wide-control"><span>Surface</span><select data-material-type disabled><option value="matte">Matte</option><option value="metal">Metal</option><option value="glass">Glass</option><option value="emissive">Emissive</option></select></label>
+            </div>
+          </section>
+        </aside>
       </section>
     </main>
 
@@ -122,9 +123,7 @@
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
     <script src="https://cdn.babylonjs.com/materialsLibrary/babylon.gridMaterial.min.js"></script>
     <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
-    <script src="https://cdn.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
     <script src="./scripts/config.js"></script>
-    <script src="./scripts/tripo-ops.js?v=source-panel-103"></script>
-    <script src="./scripts/viewport.js?v=source-panel-103"></script>
+    <script src="./scripts/viewport.js?v=studio-editor-200"></script>
   </body>
 </html>
