@@ -1,8 +1,8 @@
-const config = window.BLOXLAB_CONFIG || { sessionKey: "bloxlab.session" };
+﻿const config = window.BLOXLAB_CONFIG || { sessionKey: "bloxlab.session" };
 const session = localStorage.getItem(config.sessionKey || "bloxlab.session");
 
 if (!session) {
-  window.location.href = "./login.html";
+  window.location.href = "../login/";
 }
 
 if (!window.BABYLON) {
@@ -25,6 +25,7 @@ const transformInputs = document.querySelectorAll("[data-transform-field]");
 const colorInput = document.querySelector("[data-material-color]");
 const materialTypeSelect = document.querySelector("[data-material-type]");
 const profilerPanel = document.querySelector("[data-profiler]");
+const editorTabs = document.querySelectorAll("[data-panel-tab]");
 const profilerEls = {
   fps: document.querySelector("[data-profiler-fps]"),
   meshes: document.querySelector("[data-profiler-meshes]"),
@@ -45,6 +46,7 @@ let currentTool = "select";
 let snapEnabled = true;
 let gridVisible = true;
 let profilerOpen = false;
+let isDraggingGizmo = false;
 let blockIndex = 4;
 let isRefreshingProperties = false;
 
@@ -90,6 +92,7 @@ gizmoManager.usePointerToAttachGizmos = false;
 gizmoManager.enableAutoPicking = false;
 gizmoManager.clearGizmoOnEmptyPointerEvent = false;
 gizmoManager.boundingBoxGizmoEnabled = false;
+gizmoManager.scaleRatio = 1;
 
 const grid = createGrid();
 createDefaultSkybox();
@@ -103,10 +106,43 @@ window.bloxlabStudio = {
   camera,
   selectMesh,
   setTool,
+  importModelLink,
+  addGeneratedPreview,
+  previewImageFile,
+  setSkyboxFromImageUrls,
   getSelectedMesh: () => selectedMesh,
   getEditableMeshes: findEditableMeshes,
 };
 
+
+function focusStudioRegion(target) {
+  if (!target) return;
+  target.scrollIntoView({ block: "nearest", inline: "nearest" });
+  target.classList.add("is-tab-focus");
+  window.setTimeout(() => target.classList.remove("is-tab-focus"), 900);
+}
+
+function setEditorTab(tab) {
+  editorTabs.forEach((button) => button.classList.toggle("is-active", button.dataset.panelTab === tab));
+
+  if (tab === "model") {
+    setTool("move");
+    focusStudioRegion(document.querySelector("[data-scene-list]")?.closest(".sidebar-card"));
+    setStatus("Model tools selected");
+    return;
+  }
+
+  if (tab === "view") {
+    toggleProfiler(true);
+    focusStudioRegion(document.querySelector(".viewport-panel"));
+    setStatus("Viewport profiler selected");
+    return;
+  }
+
+  resetCamera();
+  focusStudioRegion(document.querySelector(".viewport-panel"));
+  setStatus("Home view selected");
+}
 function refreshIcons() {
   if (window.lucide) window.lucide.createIcons();
 }
@@ -417,14 +453,29 @@ function setTool(tool) {
 function configureSnap() {
   const { positionGizmo, rotationGizmo, scaleGizmo } = gizmoManager.gizmos;
   if (positionGizmo) {
-    positionGizmo.snapDistance = snapEnabled ? 0.5 : 0;
+    positionGizmo.snapDistance = snapEnabled ? 0.1 : 0;
     positionGizmo.planarGizmoEnabled = true;
+    positionGizmo.updateGizmoRotationToMatchAttachedMesh = false;
+    configurePositionDrag(positionGizmo);
   }
   if (rotationGizmo) rotationGizmo.snapDistance = snapEnabled ? Math.PI / 4 : 0;
   if (scaleGizmo) {
-    scaleGizmo.snapDistance = snapEnabled ? 0.25 : 0;
+    scaleGizmo.snapDistance = snapEnabled ? 0.1 : 0;
     scaleGizmo.incrementalSnap = true;
   }
+}
+
+function configurePositionDrag(positionGizmo) {
+  [
+    positionGizmo.xGizmo,
+    positionGizmo.yGizmo,
+    positionGizmo.zGizmo,
+    positionGizmo.xPlaneGizmo,
+    positionGizmo.yPlaneGizmo,
+    positionGizmo.zPlaneGizmo,
+  ].filter(Boolean).forEach((axisGizmo) => {
+    if (axisGizmo.dragBehavior) axisGizmo.dragBehavior.dragDeltaRatio = 1;
+  });
 }
 
 function wireGizmoObservers() {
@@ -433,8 +484,14 @@ function wireGizmoObservers() {
     .forEach((gizmo) => {
       if (gizmo.__bloxlabWired) return;
       gizmo.__bloxlabWired = true;
+      gizmo.onDragStartObservable.add(() => {
+        isDraggingGizmo = true;
+        camera.detachControl(canvas);
+      });
       gizmo.onDragObservable.add(() => updatePropertyInputsFromMesh());
       gizmo.onDragEndObservable.add(() => {
+        isDraggingGizmo = false;
+        camera.attachControl(canvas, true);
         updatePropertyInputsFromMesh();
         setStatus(`${TOOL_LABELS[currentTool]} applied`);
       });
@@ -460,6 +517,74 @@ function addSphere() {
   refreshSceneList();
 }
 
+async function importModelLink(link) {
+  const url = typeof link === "string" ? link : link?.url;
+  if (!url) throw new Error("Missing model URL.");
+  if (!BABYLON.SceneLoader) throw new Error("BabylonJS loader did not load.");
+  setStatus("Loading AI model into viewport");
+  const result = await BABYLON.SceneLoader.ImportMeshAsync("", url, "", scene);
+  const imported = result.meshes.filter((mesh) => mesh.name !== "__root__" && !mesh.metadata?.skybox);
+  imported.forEach((mesh, index) => {
+    markEditable(mesh, "AI Model");
+    mesh.position.x += (index % 4) * 0.35 - 0.6;
+    mesh.position.y += 0.2;
+    mesh.isPickable = true;
+  });
+  if (imported[0]) selectMesh(imported[0]);
+  refreshSceneList();
+  setStatus(`AI model loaded: ${imported.length || 1} mesh(es)`);
+  return result;
+}
+
+function addGeneratedPreview() {
+  const mesh = markEditable(BABYLON.MeshBuilder.CreateTorusKnot(`AI Preview ${blockIndex}`, {
+    radius: 0.72,
+    tube: 0.16,
+    radialSegments: 72,
+    tubularSegments: 12,
+  }, scene), "AI Preview");
+  mesh.position = new BABYLON.Vector3(-1.4 + Math.random() * 2.8, 1.25, 1.1 - Math.random() * 2.2);
+  mesh.material = createMaterial(`AIPreviewMaterial_${blockIndex}`, new BABYLON.Color3(0.94, 0.78, 0.22), "emissive");
+  blockIndex += 1;
+  selectMesh(mesh);
+  refreshSceneList();
+  return mesh.name;
+}
+
+function previewImageFile(file) {
+  if (!file?.type?.startsWith?.("image/")) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    const plane = markEditable(BABYLON.MeshBuilder.CreatePlane(`Image Reference ${blockIndex}`, { width: 1.8, height: 1.8 }, scene), "Reference");
+    plane.position = new BABYLON.Vector3(-2.3, 1.35, -1.2);
+    plane.rotation.y = Math.PI / 8;
+    const texture = new BABYLON.Texture(reader.result, scene);
+    const material = new BABYLON.StandardMaterial(`ImageReferenceMaterial_${blockIndex}`, scene);
+    material.diffuseTexture = texture;
+    material.emissiveColor = new BABYLON.Color3(0.12, 0.12, 0.12);
+    plane.material = material;
+    blockIndex += 1;
+    selectMesh(plane);
+    refreshSceneList();
+    setStatus(`Image reference added: ${file.name}`);
+  };
+  reader.readAsDataURL(file);
+}
+
+function setSkyboxFromImageUrls(faceUrls) {
+  const faceMap = faceUrls || {};
+  Object.entries(faceMap).forEach(([face, url]) => {
+    if (!url) return;
+    const mesh = scene.getMeshByName(`SkyboxFace_${face}`);
+    const material = mesh?.material;
+    if (!material) return;
+    const texture = new BABYLON.Texture(url, scene, true, false);
+    texture.hasAlpha = false;
+    material.diffuseTexture = texture;
+    material.emissiveTexture = texture;
+  });
+  setStatus("AI skybox applied to viewport");
+}
 function deleteSelected() {
   if (!selectedMesh) {
     setStatus("Select an object before deleting");
@@ -516,7 +641,7 @@ function updateProfiler() {
 
 scene.onPointerObservable.add((pointerInfo) => {
   if (pointerInfo.type !== BABYLON.PointerEventTypes.POINTERDOWN) return;
-  if (gizmoManager.isHovered || gizmoManager.isDragging) return;
+  if (isDraggingGizmo || gizmoManager.isHovered || gizmoManager.isDragging) return;
   const pick = scene.pick(scene.pointerX, scene.pointerY, (mesh) => mesh.metadata?.editable === true);
   if (pick?.hit && pick.pickedMesh) selectMesh(pick.pickedMesh);
 });
@@ -556,10 +681,11 @@ document.querySelector("[data-reset-camera]")?.addEventListener("click", resetCa
 document.querySelector("[data-toggle-snap]")?.addEventListener("click", toggleSnap);
 document.querySelector("[data-toggle-grid]")?.addEventListener("click", toggleGrid);
 document.querySelector("[data-toggle-profiler]")?.addEventListener("click", () => toggleProfiler());
+editorTabs.forEach((button) => button.addEventListener("click", () => setEditorTab(button.dataset.panelTab || "home")));
 document.querySelector("[data-close-profiler]")?.addEventListener("click", () => toggleProfiler(false));
 document.querySelector("[data-logout]")?.addEventListener("click", () => {
   localStorage.removeItem(config.sessionKey || "bloxlab.session");
-  window.location.href = "./login.html";
+  window.location.href = "../login/";
 });
 
 document.addEventListener("keydown", (event) => {

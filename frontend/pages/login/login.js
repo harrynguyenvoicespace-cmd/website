@@ -1,4 +1,4 @@
-const config = window.BLOXLAB_CONFIG || { apiBaseUrl: "", sessionKey: "bloxlab.session" };
+﻿const config = window.BLOXLAB_CONFIG || { apiBaseUrl: "", sessionKey: "bloxlab.session" };
 const form = document.querySelector("[data-login-form]");
 const statusEl = document.querySelector("[data-login-status]");
 
@@ -52,5 +52,5 @@ form.addEventListener("submit", async (event) => {
     });
   }
 
-  window.location.href = "./app.html";
+  window.location.href = "../studio/";
 });

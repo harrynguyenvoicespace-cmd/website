@@ -1,4 +1,4 @@
-import { Hono } from "hono";
+﻿import { Hono, type Context } from "hono";
 import { HttpError, corsMiddleware, jsonOk, requestIdMiddleware } from "./core/http";
 import { authMiddleware, rateLimitMiddleware } from "./core/security";
 import { RateLimitBucket } from "./durable-objects/rate-limit-bucket";
@@ -18,7 +18,16 @@ app.use("*", corsMiddleware);
 app.use("/v1/*", authMiddleware);
 app.use("/v1/*", rateLimitMiddleware);
 
-app.get("/", (c) =>
+function serveFrontendPage(pathname: string) {
+  return (c: Context<AppBindings>) => {
+    const url = new URL(c.req.url);
+    url.pathname = pathname;
+    url.search = "";
+    return c.env.ASSETS.fetch(new Request(url, c.req.raw));
+  };
+}
+
+const apiSummary = (c: Context<AppBindings>) =>
   jsonOk(c, {
     service: "tripo-cloudflare-api",
     upstream: c.env.TRIPO_BASE_URL ?? "https://openapi.tripo3d.ai/v3",
@@ -29,8 +38,14 @@ app.get("/", (c) =>
       hymotion: hyMotionRouteSummary,
       ai: aiAgentRouteSummary,
     },
-  }),
-);
+  });
+
+app.get("/", serveFrontendPage("/pages/landing/index.html"));
+app.get("/login", serveFrontendPage("/pages/login/index.html"));
+app.get("/login.html", serveFrontendPage("/pages/login/index.html"));
+app.get("/app", serveFrontendPage("/pages/studio/index.html"));
+app.get("/app.html", serveFrontendPage("/pages/studio/index.html"));
+app.get("/api", apiSummary);
 
 app.get("/health", (c) =>
   jsonOk(c, {

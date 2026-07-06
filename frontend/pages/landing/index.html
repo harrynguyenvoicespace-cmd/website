@@ -8,12 +8,11 @@
       name="description"
       content="BloxLab is a focused creation workspace for Roblox teams, with fast generation, clean exports, and a BabylonJS viewport after login."
     />
-    <link rel="stylesheet" href="./styles/base.css" />
-    <link rel="stylesheet" href="./styles/landing.css" />
+    <link rel="stylesheet" href="./landing.css" />
   </head>
   <body>
     <header class="site-header" data-nav>
-      <a class="brand" href="./index.html" aria-label="BloxLab home">
+      <a class="brand" href="./" aria-label="BloxLab home">
         <span class="brand-mark"></span>
         <span>BloxLab</span>
       </a>
@@ -23,8 +22,8 @@
         <a href="#performance">Performance</a>
       </nav>
       <div class="header-actions">
-        <a class="ghost-link" href="./login.html">Login</a>
-        <a class="button button-small" href="./login.html">Open Studio</a>
+        <a class="ghost-link" href="../login/">Login</a>
+        <a class="button button-small" href="../login/">Open Studio</a>
       </div>
       <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">
         <span></span>
@@ -42,7 +41,7 @@
             Built as small modules so the project stays easy to extend.
           </p>
           <div class="hero-actions">
-            <a class="button" href="./login.html">Launch viewport</a>
+            <a class="button" href="../login/">Launch viewport</a>
             <a class="text-link" href="#modules">View modules</a>
           </div>
           <div class="hero-metrics" aria-label="Product highlights">
@@ -70,7 +69,7 @@
               <p>Studio viewport</p>
             </div>
             <div class="preview-stage">
-              <img class="preview-image" src="./assets/dashboard-preview.png" alt="BloxLab dashboard preview" />
+              <img class="preview-image" src="./dashboard-preview.png" alt="BloxLab dashboard preview" />
               <div class="stage-grid"></div>
               <div class="block block-a"></div>
               <div class="block block-b"></div>
@@ -135,8 +134,8 @@
         <div class="module-grid">
           <article>
             <h3>Frontend</h3>
-            <p>Landing, login, viewport scripts, and CSS are split by screen.</p>
-            <code>frontend/scripts/viewport.js</code>
+            <p>Landing, login, and studio files live inside their own page folders.</p>
+            <code>frontend/pages/studio/studio-viewport.js</code>
           </article>
           <article>
             <h3>Backend</h3>
@@ -144,14 +143,14 @@
             <code>backend/src/routes/auth.ts</code>
           </article>
           <article>
-            <h3>Shared contract</h3>
-            <p>API payload names live in one place so frontend and backend agree.</p>
-            <code>shared/contracts/api.ts</code>
+            <h3>Studio AI contract</h3>
+            <p>AI operation payload names live inside the studio page folder so the editor contract is easy to find.</p>
+            <code>frontend/pages/studio/studio-ai-contract.js</code>
           </article>
           <article>
             <h3>3D viewport</h3>
             <p>BabylonJS scene setup stays isolated from auth and navigation.</p>
-            <code>frontend/scripts/viewport.js</code>
+            <code>frontend/pages/studio/studio-viewport.js</code>
           </article>
         </div>
       </section>
@@ -161,12 +160,10 @@
           <p class="eyebrow">Ready</p>
           <h2>Login and open the BabylonJS workspace.</h2>
         </div>
-        <a class="button" href="./login.html">Go to login</a>
+        <a class="button" href="../login/">Go to login</a>
       </section>
     </main>
 
-    <script src="./scripts/nav.js" defer></script>
+    <script src="./landing-nav.js" defer></script>
   </body>
 </html>
-
-

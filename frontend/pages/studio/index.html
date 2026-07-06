@@ -1,16 +1,15 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>BloxLab Studio Viewport</title>
-    <link rel="stylesheet" href="./styles/base.css" />
-    <link rel="stylesheet" href="./styles/viewport.css?v=studio-editor-200" />
+    <link rel="stylesheet" href="./studio.css?v=studio-editor-204" />
   </head>
   <body class="studio-body">
     <main class="studio-shell">
       <header class="editor-topbar">
-        <a class="studio-brand" href="./index.html" aria-label="BloxLab home">
+        <a class="studio-brand" href="../landing/" aria-label="BloxLab home">
           <span class="brand-mark"></span>
           <strong>BloxLab</strong>
         </a>
@@ -50,6 +49,63 @@
 
       <section class="editor-workspace">
         <aside class="studio-sidebar" aria-label="Studio tools">
+          <section class="sidebar-card ai-card" data-ai-panel>
+            <div class="card-heading ai-heading">
+              <span><i data-lucide="sparkles" aria-hidden="true"></i>AI Studio</span>
+              <strong data-ai-title>Model</strong>
+            </div>
+            <div class="ai-body">
+              <div class="ai-group-strip" data-ai-group-list aria-label="AI tools"></div>
+              <div class="ai-op-summary">
+                <div class="ai-op-icon"><i data-operation-icon data-lucide="cuboid" aria-hidden="true"></i></div>
+                <div><strong data-operation-title>Image to Model</strong><p data-operation-desc>Single image to 3D asset</p></div>
+              </div>
+              <div class="ai-mode-switch" aria-label="AI mode">
+                <button type="button" data-mode="hd">HD Model</button>
+                <button class="is-active" type="button" data-mode="smart">Smart Mesh</button>
+              </div>
+              <div class="ai-source-tabs" data-source-tabs aria-label="Quick AI sources"></div>
+              <div class="ai-source-body" data-source-body></div>
+              <details class="ai-details" open>
+                <summary><span>General Settings</span><i data-lucide="chevron-right" aria-hidden="true"></i></summary>
+                <div class="ai-details-body">
+                  <label class="field fieldWide"><span>Operation</span><select class="control" data-operation-select></select></label>
+                  <div class="formGrid" data-topology-fields></div>
+                </div>
+              </details>
+              <details class="ai-details">
+                <summary><span>Advanced operation</span><i data-lucide="chevron-right" aria-hidden="true"></i></summary>
+                <div class="ai-details-body">
+                  <div class="formGrid" data-advanced-fields></div>
+                  <label class="field fieldWide"><span>Backend API root</span><input class="control" data-api-root /></label>
+                  <label class="field fieldWide"><span>Client API key</span><input class="control" data-client-key /></label>
+                  <label class="field fieldWide"><span>Admin API key</span><input class="control" data-admin-key /></label>
+                </div>
+              </details>
+              <div class="errorBox" data-error hidden></div>
+              <section class="statusBlock">
+                <div class="progressHeader"><span data-progress-label>Ready</span><strong data-progress-value>0%</strong></div>
+                <div class="progressTrack"><div data-progress-bar style="width: 0%"></div></div>
+              </section>
+              <section class="outputBlock" data-report-block hidden>
+                <div class="outputHeader"><strong>Roblox validation</strong><span data-report-status></span></div>
+                <div data-report-list></div>
+              </section>
+              <section class="outputBlock" data-history-block hidden>
+                <div class="blockTitle">Task history</div>
+                <div class="historyList" data-history-list></div>
+              </section>
+              <section class="outputBlock" data-links-block hidden>
+                <div class="outputHeader"><strong>Output links</strong><span data-links-count>0 files</span></div>
+                <div class="linkList" data-link-list></div>
+              </section>
+              <details class="ai-details raw-details" data-raw-block hidden>
+                <summary><span>Raw response</span><i data-lucide="chevron-right" aria-hidden="true"></i></summary>
+                <pre data-raw-response></pre>
+              </details>
+              <button type="button" class="ai-run-button" data-generate-model><i data-run-icon data-lucide="sparkles" aria-hidden="true"></i>Run AI</button>
+            </div>
+          </section>
           <section class="sidebar-card">
             <div class="card-heading"><span>Scene Explorer</span><strong data-object-count>0</strong></div>
             <div class="scene-list" data-scene-list></div>
@@ -123,7 +179,8 @@
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
     <script src="https://cdn.babylonjs.com/materialsLibrary/babylon.gridMaterial.min.js"></script>
     <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
-    <script src="./scripts/config.js"></script>
-    <script src="./scripts/viewport.js?v=studio-editor-200"></script>
+    <script src="./studio-ai-contract.js?v=studio-editor-204"></script>
+    <script src="./studio-viewport.js?v=studio-editor-204"></script>
+    <script src="./studio-ai-panel.js?v=studio-editor-204"></script>
   </body>
 </html>

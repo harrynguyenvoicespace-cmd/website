@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "bloxlab-worker-api",
   "main": "backend/src/index.ts",
   "compatibility_date": "2026-07-05",
@@ -6,7 +6,7 @@
   "assets": {
     "directory": "frontend",
     "binding": "ASSETS",
-    "run_worker_first": ["/api/*"]
+    "run_worker_first": ["/api/*", "/", "/login", "/login.html", "/app", "/app.html"]
   },
   "observability": {
     "enabled": true,

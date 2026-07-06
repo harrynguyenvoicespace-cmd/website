@@ -1,4 +1,4 @@
-export type SecretEnv = {
+﻿export type SecretEnv = {
   TRIPO_API_KEY?: string;
   ROBLOX_OPEN_CLOUD_API_KEY?: string;
   ROBLOX_CREATOR_USER_ID?: string;
@@ -16,7 +16,9 @@ export type SecretEnv = {
   ADMIN_API_KEYS?: string;
 };
 
-export type RuntimeEnv = Env & SecretEnv;
+export type RuntimeEnv = Env & SecretEnv & {
+  ASSETS: Fetcher;
+};
 
 export type AppVariables = {
   requestId: string;
