@@ -18,12 +18,12 @@ app.use("*", corsMiddleware);
 app.use("/v1/*", authMiddleware);
 app.use("/v1/*", rateLimitMiddleware);
 
-function serveFrontendPage(pathname: string) {
+function redirectToFrontendPage(pathname: string) {
   return (c: Context<AppBindings>) => {
     const url = new URL(c.req.url);
     url.pathname = pathname;
     url.search = "";
-    return c.env.ASSETS.fetch(new Request(url, c.req.raw));
+    return c.redirect(url.toString(), 302);
   };
 }
 
@@ -40,11 +40,11 @@ const apiSummary = (c: Context<AppBindings>) =>
     },
   });
 
-app.get("/", serveFrontendPage("/pages/landing/index.html"));
-app.get("/login", serveFrontendPage("/pages/login/index.html"));
-app.get("/login.html", serveFrontendPage("/pages/login/index.html"));
-app.get("/app", serveFrontendPage("/pages/studio/index.html"));
-app.get("/app.html", serveFrontendPage("/pages/studio/index.html"));
+app.get("/", redirectToFrontendPage("/pages/landing/"));
+app.get("/login", redirectToFrontendPage("/pages/login/"));
+app.get("/login.html", redirectToFrontendPage("/pages/login/"));
+app.get("/app", redirectToFrontendPage("/pages/studio/"));
+app.get("/app.html", redirectToFrontendPage("/pages/studio/"));
 app.get("/api", apiSummary);
 
 app.get("/health", (c) =>
