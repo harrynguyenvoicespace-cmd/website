@@ -9,7 +9,7 @@ const countEl = document.querySelector("[data-object-count]");
 const currentModeEl = document.querySelector("[data-current-mode]");
 const resetButton = document.querySelector("[data-reset-camera]");
 const addBlockButton = document.querySelector("[data-add-block]");
-const inspectorButton = document.querySelector("[data-toggle-inspector]");
+const inspectorButtons = document.querySelectorAll("[data-toggle-inspector]");
 const sourceBody = document.querySelector("[data-source-body]");
 const topologyFieldsEl = document.querySelector("[data-topology-fields]");
 const advancedFieldsEl = document.querySelector("[data-advanced-fields]");
@@ -76,7 +76,8 @@ function escapeAttr(value) { return escapeHtml(value).replace(/'/g, "&#39;"); }
 function icon(name) { return `<i data-lucide="${escapeAttr(name)}" aria-hidden="true"></i>`; }
 function refreshIcons() { if (window.lucide) window.lucide.createIcons(); }
 function setProgress(label, value) { const safe = Math.max(0, Math.min(100, Number(value) || 0)); progressLabel.textContent = label; progressValue.textContent = `${safe}%`; progressBar.style.width = `${safe}%`; }
-async function toggleInspector() { if (!studio?.scene?.debugLayer) { showError("Babylon Inspector bundle did not load."); return; } if (inspectorOpen) { studio.scene.debugLayer.hide(); inspectorOpen = false; inspectorButton.textContent = "Inspector"; setProgress("Inspector closed", 5); return; } await studio.scene.debugLayer.show({ embedMode: true, overlay: false, handleResize: true, enablePopup: false }); inspectorOpen = true; inspectorButton.textContent = "Hide Inspector"; setProgress("Inspector reading scene", 100); }
+function setInspectorButtonState(open) { inspectorButtons.forEach((button) => { button.classList.toggle("is-active", open); const label = button.querySelector("span"); if (label) label.textContent = open ? "Hide Inspector" : "Inspector"; else button.textContent = open ? "Hide Inspector" : "Inspector"; button.setAttribute("aria-label", open ? "Close Babylon Inspector" : "Open Babylon Inspector"); }); refreshIcons(); }
+async function toggleInspector() { if (!studio?.scene?.debugLayer) { showError("Babylon Inspector bundle did not load."); return; } if (inspectorOpen) { studio.scene.debugLayer.hide(); inspectorOpen = false; setInspectorButtonState(false); setProgress("Inspector closed", 5); return; } await studio.scene.debugLayer.show({ embedMode: true, overlay: false, handleResize: true, enablePopup: false }); inspectorOpen = true; setInspectorButtonState(true); setProgress("Inspector reading scene", 100); }
 function showError(message) { errorBox.hidden = !message; errorBox.textContent = message || ""; }
 function setBusy(value) { busy = value; generateButton.disabled = busy; runIcon.setAttribute("data-lucide", busy ? "loader-2" : "sparkles"); runIcon.classList.toggle("animate-spin", busy); renderControlsDisabled(); refreshIcons(); }
 function renderControlsDisabled() { document.querySelectorAll(".shell button, .shell input, .shell select, .shell textarea").forEach((node) => { if (node.matches("[data-api-root], [data-client-key], [data-admin-key]")) return; node.disabled = busy; }); }
@@ -214,7 +215,7 @@ engine.runRenderLoop(() => { studio.diamond.rotation.y += 0.004; studio.scene.re
 window.addEventListener("resize", () => engine.resize());
 resetButton.addEventListener("click", resetCamera);
 addBlockButton.addEventListener("click", addBlock);
-inspectorButton.addEventListener("click", () => toggleInspector().catch((err) => showError(err instanceof Error ? err.message : String(err))));
+inspectorButtons.forEach((button) => button.addEventListener("click", () => toggleInspector().catch((err) => showError(err instanceof Error ? err.message : String(err)))));
 modeButtons.forEach((button) => button.addEventListener("click", () => { autoImport = button.dataset.mode === "smart"; renderModes(); }));
 sourceButtons.forEach((button) => button.addEventListener("click", () => switchOp(findOp(button.dataset.sourceTab))));
 railButtons.forEach((button) => button.addEventListener("click", () => switchGroup(button.dataset.railTool)));

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>BloxLab Studio Viewport</title>
     <link rel="stylesheet" href="./styles/base.css" />
-    <link rel="stylesheet" href="./styles/viewport.css?v=source-panel-102" />
+    <link rel="stylesheet" href="./styles/viewport.css?v=source-panel-103" />
   </head>
   <body class="studio-body">
     <main class="studio-shell">
@@ -108,9 +108,10 @@
       <section class="viewport-panel">
         <header class="viewport-header">
           <div><p class="eyebrow">BabylonJS viewport</p><h2>Studio Scene</h2></div>
-          <div class="viewport-actions"><button class="ghost-button" type="button" data-toggle-inspector>Inspector</button><button class="ghost-button" type="button" data-reset-camera>Reset camera</button><button class="button button-small" type="button" data-add-block>Add block</button></div>
+          <div class="viewport-actions"><button class="ghost-button inspector-toggle" type="button" data-toggle-inspector title="Babylon Inspector" aria-label="Open Babylon Inspector"><i data-lucide="scan-search" aria-hidden="true"></i><span>Inspector</span></button><button class="ghost-button" type="button" data-reset-camera>Reset camera</button><button class="button button-small" type="button" data-add-block>Add block</button></div>
         </header>
         <div class="canvas-wrap">
+          <button class="inspector-fab" type="button" data-toggle-inspector title="Babylon Inspector" aria-label="Open Babylon Inspector"><i data-lucide="scan-search" aria-hidden="true"></i><span>Inspector</span></button>
           <canvas id="studioCanvas" aria-label="3D studio viewport"></canvas>
           <div class="viewport-hud"><span>FPS <strong data-fps>--</strong></span><span>Objects <strong data-object-count>3</strong></span><span>Mode <strong data-current-mode>Smart</strong></span></div>
         </div>
@@ -123,7 +124,7 @@
     <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
     <script src="https://cdn.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
     <script src="./scripts/config.js"></script>
-    <script src="./scripts/tripo-ops.js?v=source-panel-102"></script>
-    <script src="./scripts/viewport.js?v=source-panel-102"></script>
+    <script src="./scripts/tripo-ops.js?v=source-panel-103"></script>
+    <script src="./scripts/viewport.js?v=source-panel-103"></script>
   </body>
 </html>
