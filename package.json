@@ -1,0 +1,25 @@
+{
+  "name": "bloxlab-worker-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "types": "wrangler types",
+    "check": "wrangler types && tsc --noEmit -p backend/tsconfig.json",
+    "test": "npm run check",
+    "deploy": "wrangler deploy --minify",
+    "deploy:dry-run": "wrangler deploy --dry-run"
+  },
+  "dependencies": {
+    "hono": "^4.8.4",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.0",
+    "typescript": "^5.8.3",
+    "wrangler": "^4.103.0"
+  }
+}
