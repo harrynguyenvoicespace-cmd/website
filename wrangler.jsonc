@@ -1,5 +1,5 @@
 ﻿{
-  "name": "bloxlab-worker-api",
+  "name": "website1",
   "main": "backend/src/index.ts",
   "compatibility_date": "2026-07-05",
   "compatibility_flags": ["nodejs_compat"],
